@@ -41,27 +41,28 @@ def train(save = True):
     X_test_scaled = scaler.transform(X_test)
 
     # Train model
-    model = XGBClassifier(
-    n_estimators=200,
-    max_depth=5,
-    learning_rate=0.05,
-    scale_pos_weight=4,    # handles class imbalance (like class_weight="balanced")
-    random_state=42,
-    eval_metric='logloss',
-    use_label_encoder=False
-    )
-    # model = RandomForestClassifier(
-    #     n_estimators=100,
-    #     max_depth=6,
-    #     min_samples_split=10,
-    #     random_state=42,
-    #     class_weight="balanced"
+    # model = XGBClassifier(
+    # n_estimators=200,
+    # max_depth=5,
+    # learning_rate=0.05,
+    # scale_pos_weight=4,    # handles class imbalance (like class_weight="balanced")
+    # random_state=42,
+    # eval_metric='logloss',
+    # use_label_encoder=False
     # )
+    model = RandomForestClassifier(
+        n_estimators=200,
+        max_depth=6,
+        min_samples_split=5,
+        random_state=42,
+        class_weight="balanced"
+    )
     model.fit(X_train_scaled, y_train)
 
     # Evaluate
     y_pred = model.predict(X_test_scaled)
     y_prob = model.predict_proba(X_test_scaled)[:, 1]
+    # y_pred = (y_prob >= 0.3).astype(int)  # lower threshold
 
     metrics = {
         "accuracy": round(accuracy_score(y_test, y_pred), 4),
