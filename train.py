@@ -3,6 +3,8 @@ import numpy as np
 import joblib
 import os
 from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+# from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score,
@@ -20,7 +22,7 @@ FEATURES = [
 ]
 
 
-def train(save: bool = True) -> dict:
+def train(save = True):
     """Train a Random Forest model on churn data."""
 
     # Generate + load data
@@ -39,13 +41,22 @@ def train(save: bool = True) -> dict:
     X_test_scaled = scaler.transform(X_test)
 
     # Train model
-    model = RandomForestClassifier(
-        n_estimators=100,
-        max_depth=6,
-        min_samples_split=10,
-        random_state=42,
-        class_weight="balanced"
+    model = XGBClassifier(
+    n_estimators=200,
+    max_depth=5,
+    learning_rate=0.05,
+    scale_pos_weight=4,    # handles class imbalance (like class_weight="balanced")
+    random_state=42,
+    eval_metric='logloss',
+    use_label_encoder=False
     )
+    # model = RandomForestClassifier(
+    #     n_estimators=100,
+    #     max_depth=6,
+    #     min_samples_split=10,
+    #     random_state=42,
+    #     class_weight="balanced"
+    # )
     model.fit(X_train_scaled, y_train)
 
     # Evaluate

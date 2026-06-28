@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def generate_churn_data(n_samples: int = 1000, random_seed: int = 42, drift: bool = False) -> pd.DataFrame:
+def generate_churn_data(n_samples = 1000, random_seed = 42, drift = False):
     """
     Generate synthetic customer churn dataset.
     If drift=True, simulate data drift by shifting feature distributions.
