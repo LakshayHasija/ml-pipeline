@@ -12,7 +12,7 @@ def setup_mlflow():
     mlflow.set_experiment(EXPERIMENT_NAME)
 
 
-def log_training_run(metrics: dict, feature_importance: dict, model, scaler, params: dict = None) -> str:
+def log_training_run(metrics, feature_importance, model, scaler, params = None):
     """Log a training run to MLflow."""
     setup_mlflow()
 
@@ -46,7 +46,7 @@ def log_training_run(metrics: dict, feature_importance: dict, model, scaler, par
         return run_id
 
 
-def get_all_runs() -> list:
+def get_all_runs():
     """Retrieve all past experiment runs."""
     setup_mlflow()
 

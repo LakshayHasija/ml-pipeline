@@ -9,7 +9,7 @@ FEATURES = [
 ]
 
 
-def detect_drift(reference_df: pd.DataFrame, current_df: pd.DataFrame, threshold: float = 0.05) -> dict:
+def detect_drift(reference_df, current_df, threshold = 0.05):
     """
     Detect data drift between reference (training) and current (production) data.
     Uses Kolmogorov-Smirnov test for numerical features.
@@ -54,7 +54,7 @@ def detect_drift(reference_df: pd.DataFrame, current_df: pd.DataFrame, threshold
     }
 
 
-def get_recommendation(drift_score: float) -> str:
+def get_recommendation(drift_score):
     if drift_score == 0:
         return "✅ No drift detected. Model is healthy and no action needed."
     elif drift_score <= 33:
@@ -65,7 +65,7 @@ def get_recommendation(drift_score: float) -> str:
         return "🚨 Severe drift detected! Immediate retraining recommended."
 
 
-def get_drift_summary(drift_results: dict) -> pd.DataFrame:
+def get_drift_summary(drift_results):
     """Return drift results as a clean DataFrame."""
     rows = []
     for feature, result in drift_results["feature_results"].items():
